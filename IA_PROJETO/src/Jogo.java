@@ -126,8 +126,8 @@ public class Jogo {
 		int cont = 0;
 		if(cont == 0)
 		return true;
-		else {
-			return false;
-		}
+		else 
+		return false;
+		
 	}
 }
