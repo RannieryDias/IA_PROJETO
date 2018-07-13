@@ -43,17 +43,20 @@ public class KNN {
 	}
 	
 	public double distanciaEuclidiana(Jogo jogo1, Jogo jogo2) {
+		int bool1 = 0;
+		int bool2 = 0;
 		double soma = 0;
-		double subtracao = 0;
+		double sub = 0;
 		double resultado = 0;
 		
 		for(int i = 0; i < 15; i++) {
-			// TODO resolver a distancia de manhattan com booleanos
-			/*
-			 * sub = jogo1 - jogo2;
-			 * soma += Math.pow(sub, 2);
-			 * sub = 0;
-			 * */
+			 bool1 = jogo1.getAtributos()[i] ? 1 : 0;
+			 bool2 = jogo2.getAtributos()[i] ? 1 : 0;
+			 sub = bool1 - bool2;
+			 soma += Math.pow(sub, 2);
+			 sub = 0;
+			 bool1 = 0;
+			 bool2 = 0;
 		}
 		
 		resultado = Math.sqrt(soma);
