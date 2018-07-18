@@ -4,9 +4,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
+
 public class KNN {
-	private Jogo[] conjuntoTreinamento;
-	private Jogo[] conjuntoTeste;
+	private Jogo[] jogosTreinamento;
+	private Jogo[] jogosTeste;
 	
 	public KNN() {
 			
@@ -18,7 +19,7 @@ public class KNN {
 		FileReader file = new FileReader("artefatos\\dataset.txt");
 		BufferedReader arq = new BufferedReader(file);
 		
-		//exemplar serve para identificar quando termina um exemplar e come�a outro
+		//exemplar serve para identificar quando termina um exemplar e começa outro
 		String linha = "";
 		String jogoComClasse[];
 		Jogo jogos[] = new Jogo[4845];
@@ -40,10 +41,12 @@ public class KNN {
 		return jogos;
 	}
 	
+	
+	//método que divide o dataset
 	public void dividirJogos(Jogo[] jogos) {
 		Jogo[] treino = new Jogo[3230];
 		Jogo[] teste = new Jogo[1615];
-		int[] id = new int[3230]; //for�a pra que n�o seja setado classe como null
+		int[] id = new int[3230]; //força pra que não seja setado classe como null
 		int [] numerosAleatorios = new int [4845];
 		int indiceTreino = 0;
 		int indiceTeste = 0;
@@ -56,7 +59,7 @@ public class KNN {
 		parada = false;
 		int tamanhoVet = 0;
 		
-		//preenche o vetor com -1 para fazer a valida��o do vetor
+		//preenche o vetor com -1 para fazer a validação do vetor
 		for(int i = 0; i < 4845; i++) {
 			numerosAleatorios[i] = -1;
 		}
@@ -65,14 +68,14 @@ public class KNN {
 		while (parada != true) {
 			numeroAleatorioGerado = rand.nextInt(4845);
 			
-			//verifica se o numero sorteado j� aconteceu antes
+			//verifica se o numero sorteado já aconteceu antes
 			for(int i = 0; i < 4845; i++) {
 				if (numerosAleatorios[i] == numeroAleatorioGerado) {
 					flag = 1;
 				}
 			}
 			
-			//se a flag for igual a 0 significa que n�o houve numero repetido, ent�o o numero � salvo no vetor
+			//se a flag for igual a 0 significa que não houve numero repetido, então o numero é salvo no vetor
 			if(flag == 0) {
 				for(int i = 0; i < 4845; i++) {
 					if (numerosAleatorios[i] == -1) {
@@ -112,7 +115,7 @@ public class KNN {
 	
 	//calculo de distancia euclidiana
 	
-	public double distanciaEuclidiana(Jogo jogoA, Jogo jogoB) {
+	public double distanciaEuclidianaPonderada(Jogo jogoA, Jogo jogoB) {
 		int bool1 = 0;
 		int bool2 = 0;
 		double soma = 0;
@@ -133,7 +136,70 @@ public class KNN {
 		
 		return resultado;
 	}
+
+	// ponderamento da distancia Euclidiana
+	private double ponderamento(double resultado, Jogo jogoA, Jogo jogoB) {
+		double w, temp = 0, resultadoPonderado = 0;
+		int bool1 = 0;
+		int bool2 = 0;
+		
+		
+		// obtendo o valor do peso
+		w = 1 / resultado;
+
+		// somatório da distancia euclidiana aplicando o peso
+		for (int i = 0; i < 256; i++) {
+			temp += (w * (Math.pow(((bool1 = jogoA.getAtributos()[i] ? 1 : 0) - (bool2 = jogoB.getAtributos()[i]? 1 : 0)), 2)));
+		}
+
+		// raiz do ponderamento
+		resultadoPonderado = Math.sqrt(temp);
+		return resultadoPonderado;
+	}
 	
+
+	// Metodo para classificação dos jogos - OBS USAR UM NUMERO IMPAR PARA O K
+	// caso contrário será setado para  o próximo ímpar automaticamente
+		public String classificacao(int k, Jogo[] jogoTreinamento, Jogo jogo) {
+
+			String retorno = "NAO CLASSIFICADO";
+			int maior;
+			int treinamento = jogoTreinamento.length;
+			double[] dist = new double[treinamento];
+			double[] menoresdist = new double[treinamento];
+			
+			//verifica se k é par, se sim se torna ímpar
+			if (k% 2 == 0)
+				k++;
+	       
+			//faz o calculo da distancia euclindiana ponderada
+			for (int i = 0; i < treinamento; i++) {
+				double d = this.distanciaEuclidianaPonderada(jogoTreinamento[i], jogo);
+				dist[i] = d;
+				menoresdist[i] = d;
+			}
+			
+			return retorno;
+		}
+	
+	public Jogo[] getJogosTreinamento() {
+		return jogosTreinamento;
+	}
+
+
+	public void setJogosTreinamento(Jogo[] jogosTreinamento) {
+		this.jogosTreinamento = jogosTreinamento;
+	}
+
+
+	public Jogo[] getJogosTeste() {
+		return jogosTeste;
+	}
+
+
+	public void setJogosTeste(Jogo[] jogosTeste) {
+		this.jogosTeste = jogosTeste;
+	}
 	
 	
 }

@@ -12,6 +12,10 @@ public class Principal {
 		float percentualDeAcerto = 0;
 		
 		Jogo [] jogos = KNN.lerArquivo();
+		int[] idsDosJogos = new int[jogos.length]; //IDs dos jogos para ser usado como gabarito
+		for(int i = 0; i < idsDosJogos.length; i++) {
+			
+		}
 		
 		
 		int k = 417;
@@ -20,13 +24,14 @@ public class Principal {
 		knn.dividirJogos(jogos);
 		
 		
+		
+		
 		fim = System.currentTimeMillis();
-		System.out.println();
 		
 		
-		
-		
-		
+//		System.out.println("Total de Acertos: " + acertos);
+//		percentualDeAcerto = (acertos * 100)/(knn.s().length);
+//		System.out.println("Percentual de Acerto: " + percentualDeAcerto + "%");		
 		tempoDeExec = fim - inicio;
 		System.out.println("Tempo de Execução: " + tempoDeExec + "ms");
 	}
