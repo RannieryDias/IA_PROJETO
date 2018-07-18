@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Random;
 
 public class KNN {
 	private Jogo[] conjuntoTreinamento;
@@ -41,9 +42,47 @@ public class KNN {
 	
 	public void dividirJogos(Jogo[] jogos) {
 		Jogo[] treino = new Jogo[3230];
+		String[] id = new String[3230]; //força pra que não seja setado classe como null
 		Jogo[] teste = new Jogo[1615];
+		int [] numerosAleatorios = new int [4845];
 		int indiceTreino = 0;
 		int indiceTeste = 0;
+		Random rand = new Random();
+		int numeroAleatorioGerado;
+		int flag = 0;
+		boolean parada = false;
+		
+		flag = 0;
+		parada = false;
+		int tamanhoVet = 0;
+		
+		//preenche o vetor com -1 para fazer a validação do vetor
+		for(int i = 0; i < 4845; i++) {
+			numerosAleatorios[i] = -1;
+		}
+		
+		//pega numeros aleatorios
+		while (parada != true) {
+			numeroAleatorioGerado = rand.nextInt(4845);
+			
+			//verifica se o numero sorteado já aconteceu antes
+			for(int i = 0; i < 4845; i++) {
+				if (numerosAleatorios[i] == numeroAleatorioGerado) {
+					flag = 1;
+				}
+			}
+			
+			//se a flag for igual a 0 significa que não houve numero repetido, então o numero é salvo no vetor
+			if(flag == 0) {
+				for(int i = 0; i < 4845; i++) {
+					if (numerosAleatorios[i] == -1) {
+						numerosAleatorios[i] = numeroAleatorioGerado;
+						tamanhoVet++;
+					}
+				}
+			}
+		}
+		
 		
 		//TODO definir critério para divisão do dataset
 		

@@ -18,6 +18,19 @@ public class Principal {
 		KNN knn = new KNN();
 		inicio = System.currentTimeMillis();
 		knn.dividirJogos(jogos);
+		
+		
+		fim = System.currentTimeMillis();
+		System.out.println();
+		
+		
+		
+		
+		
+		tempoDeExec = fim - inicio;
+		System.out.println("Tempo de Execução: " + tempoDeExec + "ms");
 	}
+
+	
 
 }
