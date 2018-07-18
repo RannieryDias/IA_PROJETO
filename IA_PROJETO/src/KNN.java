@@ -42,8 +42,8 @@ public class KNN {
 	
 	public void dividirJogos(Jogo[] jogos) {
 		Jogo[] treino = new Jogo[3230];
-		String[] id = new String[3230]; //força pra que não seja setado classe como null
 		Jogo[] teste = new Jogo[1615];
+		int[] id = new int[3230]; //força pra que não seja setado classe como null
 		int [] numerosAleatorios = new int [4845];
 		int indiceTreino = 0;
 		int indiceTeste = 0;
@@ -81,12 +81,36 @@ public class KNN {
 					}
 				}
 			}
+			
+			//checa se o vetor foi preenchido
+			if(tamanhoVet == 4845) {
+				parada = true;
+				
+			}
+			//seta a flag para 0 novamente
+			flag = 0;
+			
+			
+			//preenche o vetor de treino com os numeros sorteados
+			if(parada == true) {
+				for(int i = 0; i < 3230; i++) {
+					id[indiceTreino] = jogos[numerosAleatorios[i]].getId(); //ANTES DE MEXER COM AS IMAGENS SALVA LOGO A CLASSE DAS MESMAS 
+					treino[indiceTreino] = jogos[numerosAleatorios[i]];
+					indiceTreino++;
+				}
+				for(int i = 3230; i < 4845; i++) {
+					teste[indiceTeste] = jogos[numerosAleatorios[i]];
+					teste[indiceTeste].setId(0);
+					indiceTeste++;
+				}
+			}
 		}
 		
 		
-		//TODO definir critério para divisão do dataset
-		
 	}
+	
+	
+	//calculo de distancia euclidiana
 	
 	public double distanciaEuclidiana(Jogo jogoA, Jogo jogoB) {
 		int bool1 = 0;
