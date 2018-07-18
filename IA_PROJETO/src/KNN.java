@@ -18,15 +18,22 @@ public class KNN {
 		BufferedReader arq = new BufferedReader(file);
 		
 		//exemplar serve para identificar quando termina um exemplar e começa outro
-		String exemplar = "";
+		String linha = "";
+		String jogoComClasse[];
 		Jogo jogos[] = new Jogo[4845];
 		boolean attributes []= new boolean[15]; 
 		int j = 0;
-		Jogo jogo =  null;
+		int boolAux = 0;
 		int aux1 = 0;
+		Jogo jogo =  null;
 		
-		while ((exemplar = arq.readLine()) != null) {
-			
+		while ((linha = arq.readLine()) != null) {
+			jogoComClasse = linha.split(",");
+			attributes  = new boolean[15];
+			for(int i = 0; i < 15 ; i++) {
+//				boolAux = jogoComClasse[i] ? 1 : 0;
+//				attributes = boolAux;	
+			}
 		}
 		
 		return jogos;
@@ -42,7 +49,7 @@ public class KNN {
 		
 	}
 	
-	public double distanciaEuclidiana(Jogo jogo1, Jogo jogo2) {
+	public double distanciaEuclidiana(Jogo jogoA, Jogo jogoB) {
 		int bool1 = 0;
 		int bool2 = 0;
 		double soma = 0;
@@ -50,13 +57,13 @@ public class KNN {
 		double resultado = 0;
 		
 		for(int i = 0; i < 15; i++) {
-			 bool1 = jogo1.getAtributos()[i] ? 1 : 0;
-			 bool2 = jogo2.getAtributos()[i] ? 1 : 0;
-			 sub = bool1 - bool2;
-			 soma += Math.pow(sub, 2);
-			 sub = 0;
-			 bool1 = 0;
-			 bool2 = 0;
+			bool1 = jogoA.getAtributos()[i] ? 1 : 0;
+			bool2 = jogoB.getAtributos()[i] ? 1 : 0;
+			sub = bool1 - bool2;
+			soma += Math.pow(sub, 2);
+			sub = 0;
+			bool1 = 0;
+			bool2 = 0;
 		}
 		
 		resultado = Math.sqrt(soma);
