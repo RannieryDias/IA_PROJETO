@@ -46,7 +46,7 @@ public class KNN {
 	public void dividirJogos(Jogo[] jogos) {
 		Jogo[] treino = new Jogo[3230];
 		Jogo[] teste = new Jogo[1615];
-		int[] id = new int[3230]; //força pra que não seja setado classe como null
+		int[] id = new int[4845]; //força pra que não seja setado classe como null
 		int [] numerosAleatorios = new int [4845];
 		int indiceTreino = 0;
 		int indiceTeste = 0;
@@ -55,6 +55,8 @@ public class KNN {
 		int flag = 0;
 		boolean parada = false;
 		
+		
+		//divisao
 		flag = 0;
 		parada = false;
 		int tamanhoVet = 0;
@@ -87,6 +89,7 @@ public class KNN {
 			
 			//checa se o vetor foi preenchido
 			if(tamanhoVet == 4845) {
+				
 				parada = true;
 				
 			}
@@ -97,8 +100,9 @@ public class KNN {
 			//preenche o vetor de treino com os numeros sorteados
 			if(parada == true) {
 				for(int i = 0; i < 3230; i++) {
-					id[indiceTreino] = jogos[numerosAleatorios[i]].getId(); //ANTES DE MEXER COM AS IMAGENS SALVA LOGO A CLASSE DAS MESMAS 
+					id[indiceTreino] = jogos[numerosAleatorios[i]].getId(); //ANTES DE MEXER COM AS IMAGENS SALVA LOGO A CLASSE DAS MESMAS
 					treino[indiceTreino] = jogos[numerosAleatorios[i]];
+					System.out.println(jogos[numerosAleatorios[i]]);
 					indiceTreino++;
 				}
 				for(int i = 3230; i < 4845; i++) {
@@ -143,8 +147,7 @@ public class KNN {
 		int bool1 = 0;
 		int bool2 = 0;
 		
-		
-		// obtendo o valor do peso
+				// obtendo o valor do peso
 		w = 1 / resultado;
 
 		// somatório da distancia euclidiana aplicando o peso

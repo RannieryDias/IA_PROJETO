@@ -6,6 +6,9 @@ public class Jogo {
 	private boolean [] atributos;
 	
 	
+	public Jogo (boolean [] atributos) {
+		this.atributos = atributos;
+	}
 	
 	public int getRecommendationcount() {
 		return recommendationCount;
@@ -31,7 +34,6 @@ public class Jogo {
 	public void setId(int id) {
 		this.id = id;
 	}
-
 
 	
 	public boolean equals(Jogo a) {

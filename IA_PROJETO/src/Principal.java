@@ -18,6 +18,7 @@ public class Principal {
 		}
 		
 		
+		
 		int k = 417;
 		KNN knn = new KNN();
 		inicio = System.currentTimeMillis();
