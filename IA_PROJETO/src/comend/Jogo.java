@@ -1,3 +1,4 @@
+package comend;
 
 public class Jogo {
 	

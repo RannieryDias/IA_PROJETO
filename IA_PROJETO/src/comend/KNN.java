@@ -1,3 +1,4 @@
+package comend;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -23,7 +24,7 @@ public class KNN {
 		String linha = "";
 		String jogoComClasse[];
 		Jogo jogos[] = new Jogo[4845];
-		boolean attributes []= new boolean[15]; 
+		int attributes []= new int[15]; 
 		int j = 0;
 		int boolAux = 0;
 		int aux1 = 0;
@@ -31,13 +32,20 @@ public class KNN {
 		
 		while ((linha = arq.readLine()) != null) {
 			jogoComClasse = linha.split(",");
-			attributes  = new boolean[15];
+			attributes  = new int[15];
 			for(int i = 0; i < 15 ; i++) {
-//				boolAux = jogoComClasse[i] ? 1 : 0;
-//				attributes = boolAux;	
+				boolAux = jogoComClasse[i] ? 1 : 0;
+				aux1 = Integer.parseInt(jogoComClasse[i]);
+				attributes[i] = aux1;	
+				System.out.println("Esse atributo aqui " + attributes[i]);
 			}
+			//jogo = new Jogo(attributes);
 		}
 		
+		
+		
+		arq.close();
+		file.close();
 		return jogos;
 	}
 	
