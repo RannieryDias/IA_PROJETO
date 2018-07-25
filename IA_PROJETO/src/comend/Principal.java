@@ -18,28 +18,27 @@ public class Principal {
 		String entradaUsuario;
 		
 		Jogo [] jogos = KNN.lerArquivo();
-		int[] idsDosJogos = new int[jogos.length]; //IDs dos jogos para ser usado como gabarito
-		for(int i = 0; i < idsDosJogos.length; i++) {
-			
-		}
+		System.out.println("checando tamanho do vetor " + jogos.length);
+//		int[] idsDosJogos = new int[jogos.length]; //IDs dos jogos para ser usado como gabarito
+//		for(int i = 0; i < idsDosJogos.length; i++) {
+//			
+//		}
 		
 		
 		int k = 417;
 		KNN knn = new KNN();
 		inicio = System.currentTimeMillis();
-		knn.dividirJogos(jogos);
+		knn.preencheVetor(jogos);
 		
 		System.out.println("Digite aqui o nome de um jogo");
 		entradaUsuario = buffer.readLine();
 		entradaUsuario = entradaUsuario.replaceAll(" ","_");
-		System.out.println("informação digitada:" + entradaUsuario);
-		
+		System.out.println("nome inserido " + entradaUsuario);
+		knn.converteNomeId(entradaUsuario, jogos);
 		
 		
 		fim = System.currentTimeMillis();
 		
-		
-
 		tempoDeExec = fim - inicio;
 		System.out.println("Tempo de Execução: " + tempoDeExec + "ms");
 	}

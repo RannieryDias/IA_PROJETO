@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Arrays;
 
 
 public class KNN {
@@ -21,31 +22,39 @@ public class KNN {
 		BufferedReader arq = new BufferedReader(file);
 		
 		String linha = "";
-		String jogoComClasse[];
+		String jogoCompleto[];
+		String nome = "";
 		Jogo jogos[] = new Jogo[4845];
-		int attributes []= new int[15]; 
+		int attributes []= new int[15];
+		int id = 0;
+		int indiceRecomenda = 0;
 		int j = 0;
 		int boolAux = 0;
-		int aux1 = 0;
 		Jogo jogo =  null;
 		
 		while ((linha = arq.readLine()) != null) {
-			jogoComClasse = linha.split(",");
+			jogoCompleto = linha.split(",");
 			attributes  = new int[15];
 			for(int i = 0; i < 15 ; i++) {
 				
 				//converte de booleano para inteiro
-				if(jogoComClasse[i].equals("true")) {
+				if(jogoCompleto[i].equals("true")) {
 					boolAux = 1;					
 				}
-				else if(jogoComClasse[i].equals("false")) {
+				else if(jogoCompleto[i].equals("false")) {
 					boolAux = 0;
 				}
 
 				attributes[i] = boolAux;	
 				boolAux = 0;
 			}
+			indiceRecomenda = Integer.parseInt(jogoCompleto[15]);
+			id = Integer.parseInt(jogoCompleto[16]);
+			
 			jogo = new Jogo(attributes);
+			jogo.setRecommendationCount(indiceRecomenda);
+			jogo.setId(id);
+			jogo.setNome(jogoCompleto[17]);
 			
 			jogos[j] = jogo;
 			j++;
@@ -60,8 +69,74 @@ public class KNN {
 	}
 	
 	
+	
+	//Converte o nome digitado pelo usuário em ID
+	@SuppressWarnings("unlikely-arg-type")
+	public int converteNomeId(String nome, Jogo[] jogos) {
+		int id = 0;
+		int i = 0;
+		int aux = 0;
+		while (i < jogos.length) {
+			if (nome.equals(jogos[i].getNome()) != false) {
+				aux = i;
+			}
+			i++;
+		}
+		id = jogos[aux].getId();
+		System.out.println("ID do jogo digitadO: " + id);
+		
+		return id;
+	}
+	
+	
+	//converte id do jogo recomendado em nome
+	public String convertIdNome(int id, Jogo[] jogos) {
+		String nome = null;
+		int i = 0;
+		int aux = 0;
+		
+		while (i < jogos.length) {
+			if (id == jogos[i].getId()) {
+				nome = jogos[i].getNome();
+			}
+		}
+		
+		return nome;
+	}
+	
+	public Jogo teste(int k, int id, Jogo[] jogosComparar, Jogo jogo) {
+		int aux = jogosComparar.length;
+		int indRecomend = 0;
+		int x = 0;
+		Jogo recomendado = null;
+		Jogo []similares = new Jogo[x];
+		double[] dist = new double[aux];
+		double[] menoresdist = new double[aux];
+		
+		
+		//verifica se k é par, se sim se torna ímpar
+		if (k% 2 == 0)
+			k++;
+			
+		for(int i = 0; i < aux; i++) {
+			double d = this.distanciaEuclidianaPonderada(jogosComparar[i], jogo);
+			dist[i] = d;
+		}
+		
+		for(int i = 0; i< k; i++) {
+			for (int j = 0; j < dist[i]; j++) {
+				if(Double.compare(menoresdist[j], dist[j]) == 0){
+					//similares[x] = menoresdist[j]; 
+					x++;
+				}
+			}
+		}
+		
+		return recomendado;
+	}
+	
 	//método que divide o dataset
-	public void dividirJogos(Jogo[] jogos) {
+	public void preencheVetor(Jogo[] jogos) {
 		Jogo[] treino = new Jogo[3230];
 		Jogo[] teste = new Jogo[1615];
 		int[] id = new int[4845]; //força pra que não seja setado classe como null
@@ -135,49 +210,6 @@ public class KNN {
 	}
 	
 	
-	//calculo de distancia euclidiana
-	
-	public double distanciaEuclidianaPonderada(Jogo jogoA, Jogo jogoB) {
-		int bool1 = 0;
-		int bool2 = 0;
-		double soma = 0;
-		double sub = 0;
-		double resultado = 0;
-		
-		for(int i = 0; i < 15; i++) {
-			bool1 = jogoA.getAtributos()[i];
-			bool2 = jogoB.getAtributos()[i];
-			sub = bool1 - bool2;
-			soma += Math.pow(sub, 2);
-			sub = 0;
-			bool1 = 0;
-			bool2 = 0;
-		}
-		
-		resultado = Math.sqrt(soma);
-		
-		return resultado;
-	}
-
-	// ponderamento da distancia Euclidiana
-	private double ponderamento(double resultado, Jogo jogoA, Jogo jogoB) {
-		double w, temp = 0, resultadoPonderado = 0;
-		int bool1 = 0;
-		int bool2 = 0;
-		
-				// obtendo o valor do peso
-		w = 1 / resultado;
-
-		// somatório da distancia euclidiana aplicando o peso
-		for (int i = 0; i < 256; i++) {
-			temp += (w * (Math.pow(((bool1 = jogoA.getAtributos()[i]) - (bool2 = jogoB.getAtributos()[i])), 2)));
-		}
-
-		// raiz do ponderamento
-		resultadoPonderado = Math.sqrt(temp);
-		return resultadoPonderado;
-	}
-	
 
 	// Metodo para classificação dos jogos - OBS USAR UM NUMERO IMPAR PARA O K
 	// caso contrário será setado para  o próximo ímpar automaticamente
@@ -200,9 +232,69 @@ public class KNN {
 				menoresdist[i] = d;
 			}
 			
+			for(int i = 0; i< k; i++) {
+				for (int j = 0; j < dist[i]; j++) {
+					if(Double.compare(menoresdist[j], dist[j]) == 0){
+						
+					}
+				}
+			}
+			
+			
 			return retorno;
 		}
 	
+		//calculo de distancia euclidiana
+		
+		public double distanciaEuclidianaPonderada(Jogo jogoA, Jogo jogoB) {
+			int aux1 = 0;
+			int aux2 = 0;
+			double soma = 0;
+			double sub = 0;
+			double resultado = 0;
+			
+			for(int i = 0; i < 15; i++) {
+				aux1 = jogoA.getAtributos()[i];
+				aux2 = jogoB.getAtributos()[i];
+				sub = aux1 - aux2;
+				soma += Math.pow(sub, 2);
+				sub = 0;
+				aux1 = 0;
+				aux2 = 0;
+			}
+			
+			resultado = Math.sqrt(soma);
+			
+			return resultado;
+		}
+
+		// ponderamento da distancia Euclidiana
+		private double ponderamento(double resultado, Jogo jogoA, Jogo jogoB) {
+			double w, temp = 0, resultadoPonderado = 0;
+			int bool1 = 0;
+			int bool2 = 0;
+			
+					// obtendo o valor do peso
+			w = 1 / resultado;
+
+			// somatório da distancia euclidiana aplicando o peso
+			for (int i = 0; i < 256; i++) {
+				temp += (w * (Math.pow(((bool1 = jogoA.getAtributos()[i]) - (bool2 = jogoB.getAtributos()[i])), 2)));
+			}
+
+			// raiz do ponderamento
+			resultadoPonderado = Math.sqrt(temp);
+			return resultadoPonderado;
+		}
+	
+		
+	//Pega as k menores distancias e o que tiver maior indice de recomendação
+	//para enfim recomendar
+		
+	//Arrays.sort();
+		
+
+		
 	public Jogo[] getJogosTreinamento() {
 		return jogosTreinamento;
 	}

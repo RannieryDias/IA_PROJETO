@@ -1,5 +1,7 @@
 package comend;
 
+import java.util.Arrays;
+
 public class Jogo {
 	
 	private int id;
@@ -32,10 +34,6 @@ public class Jogo {
 	}
 
 
-	public void setRecommendationcount(int recommendationcount) {
-		this.recommendationCount = recommendationcount;
-	}
-
 	public int[] getAtributos() {
 		return atributos;
 	}
@@ -53,6 +51,13 @@ public class Jogo {
 	}
 
 	
+	
+	@Override
+	public String toString() {
+		return "Jogo [id=" + id + ", recommendationCount=" + recommendationCount + ", atributos="
+				+ Arrays.toString(atributos) + ", nome=" + nome + "]";
+	}
+
 	public boolean equals(Jogo a) {
 		int cont = 0;
 		
