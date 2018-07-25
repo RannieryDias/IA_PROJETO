@@ -20,7 +20,6 @@ public class KNN {
 		FileReader file = new FileReader("artefatos\\dataset.txt");
 		BufferedReader arq = new BufferedReader(file);
 		
-		//exemplar serve para identificar quando termina um exemplar e começa outro
 		String linha = "";
 		String jogoComClasse[];
 		Jogo jogos[] = new Jogo[4845];
@@ -34,15 +33,26 @@ public class KNN {
 			jogoComClasse = linha.split(",");
 			attributes  = new int[15];
 			for(int i = 0; i < 15 ; i++) {
-				boolAux = jogoComClasse[i] ? 1 : 0;
-				aux1 = Integer.parseInt(jogoComClasse[i]);
-				attributes[i] = aux1;	
-				System.out.println("Esse atributo aqui " + attributes[i]);
+				
+				//converte de booleano para inteiro
+				if(jogoComClasse[i].equals("true")) {
+					boolAux = 1;					
+				}
+				else if(jogoComClasse[i].equals("false")) {
+					boolAux = 0;
+				}
+
+				attributes[i] = boolAux;	
+				boolAux = 0;
 			}
-			//jogo = new Jogo(attributes);
+			jogo = new Jogo(attributes);
+			
+			jogos[j] = jogo;
+			j++;
+			jogo = null;
 		}
 		
-		
+		jogo = null;
 		
 		arq.close();
 		file.close();
@@ -90,6 +100,7 @@ public class KNN {
 				for(int i = 0; i < 4845; i++) {
 					if (numerosAleatorios[i] == -1) {
 						numerosAleatorios[i] = numeroAleatorioGerado;
+						
 						tamanhoVet++;
 					}
 				}
@@ -108,6 +119,7 @@ public class KNN {
 			//preenche o vetor de treino com os numeros sorteados
 			if(parada == true) {
 				for(int i = 0; i < 3230; i++) {
+					System.out.println("o que tem em jogos na posição dos numeros aleatorios " + jogos[numerosAleatorios[i]].getAtributos());
 					id[indiceTreino] = jogos[numerosAleatorios[i]].getId(); //ANTES DE MEXER COM AS IMAGENS SALVA LOGO A CLASSE DAS MESMAS
 					treino[indiceTreino] = jogos[numerosAleatorios[i]];
 					System.out.println(jogos[numerosAleatorios[i]]);
@@ -135,8 +147,8 @@ public class KNN {
 		double resultado = 0;
 		
 		for(int i = 0; i < 15; i++) {
-			bool1 = jogoA.getAtributos()[i] ? 1 : 0;
-			bool2 = jogoB.getAtributos()[i] ? 1 : 0;
+			bool1 = jogoA.getAtributos()[i];
+			bool2 = jogoB.getAtributos()[i];
 			sub = bool1 - bool2;
 			soma += Math.pow(sub, 2);
 			sub = 0;
@@ -160,7 +172,7 @@ public class KNN {
 
 		// somatório da distancia euclidiana aplicando o peso
 		for (int i = 0; i < 256; i++) {
-			temp += (w * (Math.pow(((bool1 = jogoA.getAtributos()[i] ? 1 : 0) - (bool2 = jogoB.getAtributos()[i]? 1 : 0)), 2)));
+			temp += (w * (Math.pow(((bool1 = jogoA.getAtributos()[i]) - (bool2 = jogoB.getAtributos()[i])), 2)));
 		}
 
 		// raiz do ponderamento

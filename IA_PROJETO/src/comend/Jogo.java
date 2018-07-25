@@ -4,10 +4,10 @@ public class Jogo {
 	
 	private int id;
 	private int recommendationCount;
-	private boolean [] atributos;
+	private int [] atributos;
 	
 	
-	public Jogo (boolean [] atributos) {
+	public Jogo (int [] atributos) {
 		this.atributos = atributos;
 	}
 	
@@ -20,11 +20,11 @@ public class Jogo {
 		this.recommendationCount = recommendationcount;
 	}
 
-	public boolean[] getAtributos() {
+	public int[] getAtributos() {
 		return atributos;
 	}
 
-	public void setAtributos(boolean[] atributos) {
+	public void setAtributos(int[] atributos) {
 		this.atributos = atributos;
 	}
 
