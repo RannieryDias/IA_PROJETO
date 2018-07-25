@@ -1,7 +1,10 @@
 package comend;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.Random;
+import java.util.Scanner;
 import javax.swing.plaf.synth.SynthSeparatorUI;
 
 public class Principal {
@@ -11,6 +14,8 @@ public class Principal {
 		long fim = 0;
 		long tempoDeExec = 0;
 		float percentualDeAcerto = 0;
+		BufferedReader buffer = new BufferedReader (new InputStreamReader(System.in));
+		String entradaUsuario;
 		
 		Jogo [] jogos = KNN.lerArquivo();
 		int[] idsDosJogos = new int[jogos.length]; //IDs dos jogos para ser usado como gabarito
@@ -19,21 +24,22 @@ public class Principal {
 		}
 		
 		
-		
 		int k = 417;
 		KNN knn = new KNN();
 		inicio = System.currentTimeMillis();
 		knn.dividirJogos(jogos);
 		
+		System.out.println("Digite aqui o nome de um jogo");
+		entradaUsuario = buffer.readLine();
+		entradaUsuario = entradaUsuario.replaceAll(" ","_");
+		System.out.println("informação digitada:" + entradaUsuario);
 		
 		
 		
 		fim = System.currentTimeMillis();
 		
 		
-//		System.out.println("Total de Acertos: " + acertos);
-//		percentualDeAcerto = (acertos * 100)/(knn.s().length);
-//		System.out.println("Percentual de Acerto: " + percentualDeAcerto + "%");		
+
 		tempoDeExec = fim - inicio;
 		System.out.println("Tempo de Execução: " + tempoDeExec + "ms");
 	}

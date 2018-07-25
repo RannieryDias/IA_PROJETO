@@ -5,8 +5,24 @@ public class Jogo {
 	private int id;
 	private int recommendationCount;
 	private int [] atributos;
+	private String nome;
 	
-	
+	public int getRecommendationCount() {
+		return recommendationCount;
+	}
+
+	public void setRecommendationCount(int recommendationCount) {
+		this.recommendationCount = recommendationCount;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public Jogo (int [] atributos) {
 		this.atributos = atributos;
 	}

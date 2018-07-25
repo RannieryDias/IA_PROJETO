@@ -119,10 +119,8 @@ public class KNN {
 			//preenche o vetor de treino com os numeros sorteados
 			if(parada == true) {
 				for(int i = 0; i < 3230; i++) {
-					System.out.println("o que tem em jogos na posição dos numeros aleatorios " + jogos[numerosAleatorios[i]].getAtributos());
 					id[indiceTreino] = jogos[numerosAleatorios[i]].getId(); //ANTES DE MEXER COM AS IMAGENS SALVA LOGO A CLASSE DAS MESMAS
 					treino[indiceTreino] = jogos[numerosAleatorios[i]];
-					System.out.println(jogos[numerosAleatorios[i]]);
 					indiceTreino++;
 				}
 				for(int i = 3230; i < 4845; i++) {
