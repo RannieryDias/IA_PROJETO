@@ -10,6 +10,7 @@ import javax.swing.plaf.synth.SynthSeparatorUI;
 public class Principal {
 
 	public static void main(String[] args) throws NumberFormatException, IOException {
+		int id = 0;
 		long inicio = 0;
 		long fim = 0;
 		long tempoDeExec = 0;
@@ -28,14 +29,15 @@ public class Principal {
 		int k = 417;
 		KNN knn = new KNN();
 		inicio = System.currentTimeMillis();
-		//knn.(jogos);
+		
 		
 		System.out.println("Digite aqui o nome de um jogo");
 		entradaUsuario = buffer.readLine();
 		entradaUsuario = entradaUsuario.replaceAll(" ","_");
 		System.out.println("nome inserido " + entradaUsuario);
-		knn.converteNomeId(entradaUsuario, jogos);
-		
+		id = knn.converteNomeId(entradaUsuario, jogos);
+		Jogo jogo = jogos[2]; 
+		knn.teste(k,id, jogos,jogo);
 		
 		fim = System.currentTimeMillis();
 		
