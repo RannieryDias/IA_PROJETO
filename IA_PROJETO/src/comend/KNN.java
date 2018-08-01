@@ -104,14 +104,18 @@ public class KNN {
 		return nome;
 	}
 	
+	
+	//recebe o valor k, a id do jogo digitado pelo usuário, o vetor com todos os 
+	//jogos do dataset, e o jogo em si a ser comparado
 	public Jogo teste(int k, int id, Jogo[] jogosComparar, Jogo jogo) {
 		int aux = jogosComparar.length;
 		int indRecomend = 0;
 		int x = 0;
 		Jogo recomendado = null;
 		Jogo []similares = new Jogo[x];
+		int[] idsJogosSimilares = new int [x];
 		double[] dist = new double[aux];
-		double[] menoresdist = new double[aux];
+		double[] menoresDist = new double[aux];
 		
 		
 		//verifica se k é par, se sim se torna ímpar
@@ -123,10 +127,11 @@ public class KNN {
 			dist[i] = d;
 		}
 		
+		//checa checa as distancias mais similares ao jogo inserido e preenche as IDs destes no vetor idsJogosSimilares
 		for(int i = 0; i< k; i++) {
 			for (int j = 0; j < dist[i]; j++) {
-				if(Double.compare(menoresdist[j], dist[j]) == 0){
-					//similares[x] = menoresdist[j]; 
+				if(Double.compare(menoresDist[j], dist[j]) == 0){
+					idsJogosSimilares[x] = (int) menoresDist[j]; 
 					x++;
 				}
 			}
@@ -135,7 +140,7 @@ public class KNN {
 		return recomendado;
 	}
 	
-	//método que divide o dataset
+	/*//método que divide o dataset
 	public void preencheVetor(Jogo[] jogos) {
 		Jogo[] treino = new Jogo[3230];
 		Jogo[] teste = new Jogo[1615];
@@ -207,13 +212,13 @@ public class KNN {
 		}
 		
 		
-	}
+	}*/
 	
 	
 
 	// Metodo para classificação dos jogos - OBS USAR UM NUMERO IMPAR PARA O K
 	// caso contrário será setado para  o próximo ímpar automaticamente
-		public String classificacao(int k, Jogo[] jogoTreinamento, Jogo jogo) {
+/*		public String classificacao(int k, Jogo[] jogoTreinamento, Jogo jogo) {
 
 			String retorno = "NAO CLASSIFICADO";
 			int maior;
@@ -242,11 +247,12 @@ public class KNN {
 			
 			
 			return retorno;
-		}
+		}*/
 	
-		//calculo de distancia euclidiana
-		
-		public double distanciaEuclidianaPonderada(Jogo jogoA, Jogo jogoB) {
+	
+	
+	//calculo de distancia euclidiana
+			public double distanciaEuclidianaPonderada(Jogo jogoA, Jogo jogoB) {
 			int aux1 = 0;
 			int aux2 = 0;
 			double soma = 0;

@@ -28,7 +28,7 @@ public class Principal {
 		int k = 417;
 		KNN knn = new KNN();
 		inicio = System.currentTimeMillis();
-		knn.preencheVetor(jogos);
+		//knn.(jogos);
 		
 		System.out.println("Digite aqui o nome de um jogo");
 		entradaUsuario = buffer.readLine();
