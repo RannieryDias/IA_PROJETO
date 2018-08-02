@@ -37,7 +37,7 @@ public class Principal {
 		System.out.println("nome inserido " + entradaUsuario);
 		id = knn.converteNomeId(entradaUsuario, jogos);
 		Jogo jogo = jogos[2]; 
-		knn.teste(k,id, jogos,jogo);
+		//knn.teste(k,id, knn.getjogos,jogo);
 		
 		fim = System.currentTimeMillis();
 		

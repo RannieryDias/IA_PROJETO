@@ -297,8 +297,18 @@ public class KNN {
 	//Pega as k menores distancias e o que tiver maior indice de recomendação
 	//para enfim recomendar
 		
-	//Arrays.sort();
+	//	Distancia de Hamming 
 		
+		public int distanciaHamming(Jogo jogoA,Jogo jogoB) {
+			int aux;
+			int resultado = 0;
+			
+			for (int i = 0; i < 15; i++) {
+				aux = (jogoA.getAtributos()[i]==jogoB.getAtributos()[i]? 1 : 0); 
+			}
+			
+			return resultado;
+		}
 
 		
 	public Jogo[] getJogosTreinamento() {
