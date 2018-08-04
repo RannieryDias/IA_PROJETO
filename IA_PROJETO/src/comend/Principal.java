@@ -18,7 +18,7 @@ public class Principal {
 		BufferedReader buffer = new BufferedReader (new InputStreamReader(System.in));
 		String entradaUsuario;
 		
-		Jogo [] jogos = KNN.lerArquivo();
+		Jogo [] jogos = Reserva.lerArquivo();
 		System.out.println("checando tamanho do vetor " + jogos.length);
 //		int[] idsDosJogos = new int[jogos.length]; //IDs dos jogos para ser usado como gabarito
 //		for(int i = 0; i < idsDosJogos.length; i++) {
@@ -27,7 +27,7 @@ public class Principal {
 		
 		
 		int k = 417;
-		KNN knn = new KNN();
+		Reserva knn = new Reserva();
 		inicio = System.currentTimeMillis();
 		
 		
