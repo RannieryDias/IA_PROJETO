@@ -51,16 +51,13 @@ public class Principal {
 		
 		entradaUsuario = buffer.readLine();
 		entradaUsuario = entradaUsuario.replaceAll(" ","_");
-		System.out.println("nome inserido " + entradaUsuario);
 		
 		byte flag = 0;
 		
 		while(flag == 0) {
 			temporario = knn.converteNomeId(entradaUsuario, jogos);
 			if( temporario != null) {
-				
 				jogoUser = (knn.converteNomeId(entradaUsuario, jogos));
-				System.out.println("jogo do usuario: " + jogoUser.getNome());
 				flag = 1;
 			}else {
 				System.out.println("\n");
@@ -72,7 +69,11 @@ public class Principal {
 			}
 		}
 		
+		System.out.println( jogoUser.getNome() );
 		
+		for (byte i = 0; i < 15; i++) {
+			System.out.println(jogoUser.getAtributos()[i]);
+		}
 		
 		knn.recomendacao(k, knn.getJogos(), jogoUser);
 		
@@ -85,6 +86,8 @@ public class Principal {
 		byte cont = 1;
 		for (byte i = 0; i < 3; i++) {
 			System.out.println(cont + " " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
+			for(byte j = 0; j < 15; j++)
+				System.out.println(recomendados[i].getAtributos()[j]);
 			cont++;
 		}
 		

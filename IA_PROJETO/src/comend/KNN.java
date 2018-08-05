@@ -84,7 +84,6 @@ public class KNN {
 			}
 			if(aux !=  0) {
 				jogoEncontrado = jogos[aux];
-				System.out.println("Jogo econtrado: ID " + jogoEncontrado.getId() + " Nome " + jogoEncontrado.getNome());
 				return jogoEncontrado;
 			}
 			else {
@@ -108,10 +107,9 @@ public class KNN {
 		return nome;
 	}	
 
-	// Metodo para classifica��o das imagens - OBS USAR UM NUMERO IMPAR PARA O K
+	// Metodo que checa os vizinhos mais proximos- OBS USAR UM NUMERO IMPAR PARA O K
 	public Jogo[] recomendacao(int k, Jogo[] jogosComparacao, Jogo jogo) {
 
-		int maior;
 		int tamanhoVetor = jogosComparacao.length;
 		int indRecomenda = 0;
 		double[] dist = new double[tamanhoVetor];
@@ -123,9 +121,9 @@ public class KNN {
 		if (k % 2 == 0)
 			k++;
 
-		//chama o método da distancia Euclidiana
+		//chama o método da distancia hamming
 		for (int i = 0; i < tamanhoVetor; i++) {
-			double d = this.distanciaEuclidianaPonderada(jogosComparacao[i], jogo);
+			double d = this.distanciaHamming(jogosComparacao[i], jogo);
 			dist[i] = d;
 			menoresdist[i] = d;
 		}
@@ -143,20 +141,17 @@ public class KNN {
 						//maxima recomendacao
 						if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() > maximo) {
 							if(jogosComparacao[j].getId() != jogo.getId()) {
-								System.out.println("Jogo com maxima recomendacao: " + jogosComparacao[j].getNome());
 								minimo = medio;
 								temp = maximo;
 								medio = temp;
 	             				this.recomendados[1] = recomendados[0];
 								this.recomendados[0] = jogosComparacao[j];
-								System.out.println("valor medio " + medio);
 								maximo = jogosComparacao[j].getRecommendationCount();
 							}
 						}
 												
 						//media recomendacao
 						else if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() < maximo) {
-							System.out.println("Jogo com media recomendacao: " + jogosComparacao[j].getNome());
 							this.recomendados[1] = jogosComparacao[j];
 							minimo = medio;
 							medio = jogosComparacao[j].getRecommendationcount();
@@ -164,7 +159,6 @@ public class KNN {
 						
 						//minima recomendacao
 						else if (jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() < medio && jogosComparacao[j].getRecommendationCount() < maximo) {
-							System.out.println("Jogo com menor recomendacao: " + jogosComparacao[j].getNome());
 							this.recomendados[2] = jogosComparacao[j];
 							minimo = jogosComparacao[j].getRecommendationcount();
 						}
@@ -173,7 +167,6 @@ public class KNN {
 			}
 		}
 		
-		maior = Integer.MIN_VALUE;
 		
 		
 		return recomendados;
