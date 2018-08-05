@@ -85,12 +85,12 @@ public class KNN {
 			if(aux !=  0) {
 				jogoEncontrado = jogos[aux];
 				System.out.println("Jogo econtrado: ID " + jogoEncontrado.getId() + " Nome " + jogoEncontrado.getNome());
+				return jogoEncontrado;
 			}
 			else {
 				System.out.println("Desculpe, jogo não encontrado, tente outro!");
-			}
-			
-			return jogoEncontrado;
+				return null;
+			}	
 		}
 		
 	//converte id do jogo recomendado em nome

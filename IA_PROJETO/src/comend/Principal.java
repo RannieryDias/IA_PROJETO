@@ -18,15 +18,15 @@ public class Principal {
 		long inicio = 0;
 		long fim = 0;
 		long tempoDeExec = 0;
-		Jogo jogoUser;
+		Jogo jogoUser = null;
+		Jogo temporario = null;
 		Jogo [] recomendados = new Jogo[3];
-		
+		Jogador jogador;
 		
 		BufferedReader buffer = new BufferedReader (new InputStreamReader(System.in));
 		String entradaUsuario;
 		
 		Jogo [] jogos = KNN.lerArquivo();
-		System.out.println("checando tamanho do vetor " + jogos.length);
 
 		
 		int k = 417; //PARAMETRO DO KNN
@@ -46,11 +46,32 @@ public class Principal {
 				":......::::::..:::::........::..:::::..::..:::::..:::::..:::::..::........::::::...:::::....:::......::::.......:::..:::::..::\r\n" + 
 				"");
 		
+		System.out.println("\n");
 		System.out.println("Digite aqui o nome de um jogo");
+		
 		entradaUsuario = buffer.readLine();
 		entradaUsuario = entradaUsuario.replaceAll(" ","_");
 		System.out.println("nome inserido " + entradaUsuario);
-		jogoUser = (knn.converteNomeId(entradaUsuario, jogos));
+		
+		byte flag = 0;
+		
+		while(flag == 0) {
+			temporario = knn.converteNomeId(entradaUsuario, jogos);
+			if( temporario != null) {
+				
+				jogoUser = (knn.converteNomeId(entradaUsuario, jogos));
+				System.out.println("jogo do usuario: " + jogoUser.getNome());
+				flag = 1;
+			}else {
+				System.out.println("\n");
+				System.out.println("Digite aqui o nome de um jogo");
+				
+				entradaUsuario = buffer.readLine();
+				entradaUsuario = entradaUsuario.replaceAll(" ","_");
+				System.out.println("nome inserido " + entradaUsuario);
+			}
+		}
+		
 		
 		
 		knn.recomendacao(k, knn.getJogos(), jogoUser);
