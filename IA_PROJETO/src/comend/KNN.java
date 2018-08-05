@@ -9,7 +9,7 @@ import java.io.IOException;
 public class KNN {
 
 	private Jogo[] vetorJogos;
-	
+	Jogo[] recomendados = new Jogo[3];
 	//Leitura do dataset carregando no vetor de jogos do KNN
 	public static Jogo[] lerArquivo() throws FileNotFoundException,IOException {
 			FileReader file = new FileReader("artefatos\\dataset.txt");
@@ -62,22 +62,35 @@ public class KNN {
 			return jogos;
 		}
 		
+	//Preenche vetor com todos os jogos do dataset
+	
+	public void inicializaVetor(Jogo[] jogos) {
+		this.setJogos(jogos);
+	}
+	
 	//Converte o nome digitado pelo usuário em ID
 	@SuppressWarnings("unlikely-arg-type")
-	public int converteNomeId(String nome, Jogo[] jogos) {
+	public Jogo converteNomeId(String nome, Jogo[] jogos) {
 			int id = 0;
 			int i = 0;
 			int aux = 0;
+			Jogo jogoEncontrado = null;
+			
 			while (i < jogos.length) {
-				if (nome.equals(jogos[i].getNome()) != false) {
+				if (nome.equalsIgnoreCase(jogos[i].getNome()) != false) {
 					aux = i;
 				}
 				i++;
 			}
-			id = jogos[aux].getId();
-			System.out.println("ID do jogo digitadO: " + id);
+			if(aux !=  0) {
+				jogoEncontrado = jogos[aux];
+				System.out.println("Jogo econtrado: ID " + jogoEncontrado.getId() + " Nome " + jogoEncontrado.getNome());
+			}
+			else {
+				System.out.println("Desculpe, jogo não encontrado, tente outro!");
+			}
 			
-			return id;
+			return jogoEncontrado;
 		}
 		
 	//converte id do jogo recomendado em nome
@@ -96,15 +109,14 @@ public class KNN {
 	}	
 
 	// Metodo para classifica��o das imagens - OBS USAR UM NUMERO IMPAR PARA O K
-	public String classificacao(int k, Jogo[] jogosComparacao, Jogo jogo) {
+	public Jogo[] recomendacao(int k, Jogo[] jogosComparacao, Jogo jogo) {
 
-		String retorno = "NAO CLASSIFICADO";
 		int maior;
 		int tamanhoVetor = jogosComparacao.length;
 		int indRecomenda = 0;
 		double[] dist = new double[tamanhoVetor];
 		double[] menoresdist = new double[tamanhoVetor];
-		Jogo[] recomendados = new Jogo[3];
+
 		
 			
 		// verifica se o k é par, caso seja, passa a ser impar
@@ -120,12 +132,41 @@ public class KNN {
 		
 		// pega as k menores distancias e verifica qual a classe da imagem para
 		// no final classificar
+		int maximo = 0, medio = 0, minimo = 0, temp = 0 ;
+		
+		//método que define os 3 jogos com maiores taxas de recomendação
 		for(int i = 0; i < k; i++) {
 			for(int j = 0; j < dist.length; j++) {
 				if(Double.compare(menoresdist[i], dist[j]) == 0) {
 					for(int aux = 0; aux < 3; aux++) {
-						if (jogosComparacao[j].getRecommendationCount() > recomendados[j].getRecommendationCount()) {
-							
+						
+						//maxima recomendacao
+						if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() > maximo) {
+							if(jogosComparacao[j].getId() != jogo.getId()) {
+								System.out.println("Jogo com maxima recomendacao: " + jogosComparacao[j].getNome());
+								minimo = medio;
+								temp = maximo;
+								medio = temp;
+	             				this.recomendados[1] = recomendados[0];
+								this.recomendados[0] = jogosComparacao[j];
+								System.out.println("valor medio " + medio);
+								maximo = jogosComparacao[j].getRecommendationCount();
+							}
+						}
+												
+						//media recomendacao
+						else if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() < maximo) {
+							System.out.println("Jogo com media recomendacao: " + jogosComparacao[j].getNome());
+							this.recomendados[1] = jogosComparacao[j];
+							minimo = medio;
+							medio = jogosComparacao[j].getRecommendationcount();
+						}
+						
+						//minima recomendacao
+						else if (jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() < medio && jogosComparacao[j].getRecommendationCount() < maximo) {
+							System.out.println("Jogo com menor recomendacao: " + jogosComparacao[j].getNome());
+							this.recomendados[2] = jogosComparacao[j];
+							minimo = jogosComparacao[j].getRecommendationcount();
 						}
 					}	
 				}
@@ -135,7 +176,7 @@ public class KNN {
 		maior = Integer.MIN_VALUE;
 		
 		
-		return retorno;
+		return recomendados;
 	}
 	
 	// Calcula a distancia de Manhattan
@@ -227,4 +268,14 @@ public class KNN {
 	public Jogo[] getJogos() {
 		return vetorJogos;
 	}
+
+	public Jogo[] getRecomendados() {
+		return recomendados;
+	}
+
+	public void setRecomendados(Jogo[] recomendados) {
+		this.recomendados = recomendados;
+	}
+	
+	
 }
