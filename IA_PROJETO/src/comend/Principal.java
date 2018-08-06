@@ -29,7 +29,7 @@ public class Principal {
 		Jogo [] jogos = KNN.lerArquivo();
 
 		
-		int k = 417; //PARAMETRO DO KNN
+		int k = 17; //PARAMETRO DO KNN
 		
 		KNN knn = new KNN();
 		inicio = System.currentTimeMillis();

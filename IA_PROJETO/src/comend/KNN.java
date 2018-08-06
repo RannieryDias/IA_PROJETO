@@ -123,27 +123,43 @@ public class KNN {
 
 		//chama o método da distancia hamming
 		for (int i = 0; i < tamanhoVetor; i++) {
-			double d = this.distanciaHamming(jogosComparacao[i], jogo);
-			dist[i] = d;
-			menoresdist[i] = d;
+			double d = distanciaHamming(jogosComparacao[i], jogo);
+				dist[i] = d;
+				menoresdist[i] = d;
 		}
 		
+/*		//ordenar vetor com bubble sort
+		double tempOrdena = 0;
+		for(int i = 0; i < tamanhoVetor; i++){
+		    for(int j = 0; j < (tamanhoVetor-1); j++){
+		        if(dist[j] < dist[j + 1]){
+		            tempOrdena = dist[j];
+		            dist[j] = dist[j+1];
+		            dist[j+1] = tempOrdena;
+		        }
+		    }
+		    
+		}*/
+
+
 		// pega as k menores distancias e verifica qual a classe da imagem para
 		// no final classificar
-		int maximo = 0, medio = 0, minimo = 0, temp = 0 ;
+		int maximo = 0, medio = 0, minimo = 0, temp = 0, pau = 0;
 		
 		//método que define os 3 jogos com maiores taxas de recomendação
 		for(int i = 0; i < k; i++) {
 			for(int j = 0; j < dist.length; j++) {
-				if(Double.compare(menoresdist[i], dist[j]) == 0) {
-					for(int aux = 0; aux < 3; aux++) {
-						
+				//System.out.println("Valores de distancias: " + menoresdist[i] + " opa " + dist[j] +" Resultado " + Double.compare(menoresdist[i], dist[j]));
+				//if(Double.compare(menoresdist[i], dist[j]) == 0) {
+				if(dist[j] == 15) {
+					for(int aux = 0; aux < 3; aux++) {			
 						//maxima recomendacao
 						if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() > maximo) {
 							if(jogosComparacao[j].getId() != jogo.getId()) {
 								minimo = medio;
 								temp = maximo;
 								medio = temp;
+								this.recomendados[2] = recomendados[1];
 	             				this.recomendados[1] = recomendados[0];
 								this.recomendados[0] = jogosComparacao[j];
 								maximo = jogosComparacao[j].getRecommendationCount();
@@ -152,21 +168,24 @@ public class KNN {
 												
 						//media recomendacao
 						else if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() < maximo) {
-							this.recomendados[1] = jogosComparacao[j];
-							minimo = medio;
-							medio = jogosComparacao[j].getRecommendationcount();
+							if(jogosComparacao[j].getId() != jogo.getId()) {
+								this.recomendados[1] = jogosComparacao[j];
+								minimo = medio;
+								medio = jogosComparacao[j].getRecommendationcount();
+							}
 						}
 						
 						//minima recomendacao
 						else if (jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() < medio && jogosComparacao[j].getRecommendationCount() < maximo) {
-							this.recomendados[2] = jogosComparacao[j];
-							minimo = jogosComparacao[j].getRecommendationcount();
+							if(jogosComparacao[j].getId() != jogo.getId()) {
+								this.recomendados[2] = jogosComparacao[j];
+								minimo = jogosComparacao[j].getRecommendationcount();
+							}
 						}
 					}	
 				}
 			}
 		}
-		
 		
 		
 		return recomendados;
@@ -249,7 +268,7 @@ public class KNN {
 		for (int i = 0; i < 15; i++) {
 			similaridade += (jogoA.getAtributos()[i]==jogoB.getAtributos()[i]? 1 : 0); 
 		}
-		
+		//System.out.println("Similaridade Hamming: " + similaridade);
 		return similaridade;
 	}
 	 
