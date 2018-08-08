@@ -25,7 +25,7 @@ public class Principal {
 		Scanner scanner = new Scanner(System.in);
 		BufferedReader buffer = new BufferedReader (new InputStreamReader(System.in));
 		String entradaUsuario = null;
-		String atributosComparados;;
+		String atributosComparados;
 		NumberFormat formatter = decimal();
 		
 		
