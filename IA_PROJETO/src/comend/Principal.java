@@ -21,19 +21,98 @@ public class Principal {
 		Jogo jogoUser = null;
 		Jogo temporario = null;
 		Jogo [] recomendados = new Jogo[3];
-		Jogador jogador;
-		
+		Jogo jogoPlayers = null;
+		Scanner scanner = new Scanner(System.in);
 		BufferedReader buffer = new BufferedReader (new InputStreamReader(System.in));
-		String entradaUsuario;
+		String entradaUsuario = null;
+		String atributosComparados;;
+		NumberFormat formatter = decimal();
+		
+		
 		
 		Jogo [] jogos = KNN.lerArquivo();
-
 		
 		int k = 17; //PARAMETRO DO KNN
 		
+		//inicializa KNN e e preenche o vetor com Jogos
 		KNN knn = new KNN();
 		inicio = System.currentTimeMillis();
 		knn.inicializaVetor(jogos);
+		
+		String [] nomesJogosPlayers = new String[3];
+		
+		
+		//Preenche os usuários com jogos e suas recomendações
+		
+		Jogador player1 = new Jogador();
+		player1.setNome("Malu");
+		nomesJogosPlayers[0] = "Left_4_Dead_2";
+		nomesJogosPlayers[1] = "Trine_2";
+		nomesJogosPlayers[2] = "Lara_Croft_and_the_guardian_of_light";
+		player1.setNomesDosJogos(nomesJogosPlayers);
+		jogoPlayers = knn.converteNomeId(nomesJogosPlayers[0], jogos);
+		jogoPlayers = knn.converteNomeId(nomesJogosPlayers[1], jogos);
+		jogoPlayers = knn.converteNomeId(nomesJogosPlayers[2], jogos);
+		knn.recomendacao(k, knn.getJogos(), jogoPlayers);	
+		recomendados = knn.getRecomendados();
+	
+		System.out.println("Os jogos que recomendamos para "+ player1.getNome() + " são: ");
+		byte cont = 1;
+		for (byte i = 0; i < 3; i++) {
+			System.out.println(cont + " " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
+			for(byte j = 0; j < 15; j++)
+				System.out.println(recomendados[i].getAtributos()[j]);
+			cont++;
+		}
+		System.out.println("Pressione Enter para continuar!");
+		scanner.nextLine();
+		
+		
+		
+		Jogador player2 = new Jogador();
+		player2.setNome("Daniel");
+		nomesJogosPlayers[0] = "Dota_2";
+		nomesJogosPlayers[1] = "Counter-Strike:_Global_Offensive ";
+		nomesJogosPlayers[2] = "Lara_Croft_and_the_guardian_of_light";
+		player2.setNomesDosJogos(nomesJogosPlayers);
+		jogoPlayers = knn.converteNomeId(nomesJogosPlayers[0], jogos);
+		jogoPlayers = knn.converteNomeId(nomesJogosPlayers[1], jogos);
+		jogoPlayers = knn.converteNomeId(nomesJogosPlayers[2], jogos);
+		knn.recomendacao(k, knn.getJogos(), jogoPlayers);	
+		recomendados = knn.getRecomendados();
+	
+		System.out.println("Os jogos que recomendamos para "+ player2.getNome() + " são: ");
+		cont = 1;
+		for (byte i = 0; i < 3; i++) {
+			System.out.println(cont + " " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
+			for(byte j = 0; j < 15; j++)
+				System.out.println(recomendados[i].getAtributos()[j]);
+			cont++;
+		}
+		System.out.println("Pressione Enter para continuar!");
+		scanner.nextLine();
+		
+		
+		
+		Jogador player3 = new Jogador();
+		player3.setNome("Marcos");
+		nomesJogosPlayers[0] = "Killing_Floor";
+		nomesJogosPlayers[1] = "Team_Fortress_2";
+		nomesJogosPlayers[2] = "Final_Fantasy_9";
+		player3.setNomesDosJogos(nomesJogosPlayers);
+		knn.recomendacao(k, knn.getJogos(), jogoPlayers);	
+		recomendados = knn.getRecomendados();
+	
+		System.out.println("Os jogos que recomendamos para "+ player3.getNome() + " são: ");
+		cont = 1;
+		for (byte i = 0; i < 3; i++) {
+			System.out.println(cont + " " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
+			for(byte j = 0; j < 15; j++)
+				System.out.println(recomendados[i].getAtributos()[j]);
+			cont++;
+		}
+		System.out.println("Pressione Enter para continuar!");
+		scanner.nextLine();
 		
 		System.out.println("\r\n" + 
 				":'######::'########:'########::::'###::::'##::::'##:::::::'###::::'########::'##::::'##:'####::'######:::'#######::'########::\r\n" + 
@@ -46,8 +125,12 @@ public class Principal {
 				":......::::::..:::::........::..:::::..::..:::::..:::::..:::::..::........::::::...:::::....:::......::::.......:::..:::::..::\r\n" + 
 				"");
 		
+
+		
+		
+		
 		System.out.println("\n");
-		System.out.println("Digite aqui o nome de um jogo");
+		System.out.println("Digite aqui o nome de um jogo: \r");
 		
 		entradaUsuario = buffer.readLine();
 		entradaUsuario = entradaUsuario.replaceAll(" ","_");
@@ -79,11 +162,12 @@ public class Principal {
 		
 		recomendados = knn.getRecomendados();
 		
-		NumberFormat formatter = decimal();
+
+		
 		
 		System.out.println("\n");
 		System.out.println("Os jogos que recomendamos são: ");
-		byte cont = 1;
+		cont = 1;
 		for (byte i = 0; i < 3; i++) {
 			System.out.println(cont + " " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
 			for(byte j = 0; j < 15; j++)
@@ -103,5 +187,6 @@ public class Principal {
 	        symbols.setGroupingSeparator('.');
 	        return new DecimalFormat("#0,000", symbols);
 	    }
+	 
 
 }
