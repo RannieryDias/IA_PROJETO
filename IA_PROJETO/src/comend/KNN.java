@@ -128,18 +128,6 @@ public class KNN {
 				menoresdist[i] = d;
 		}
 		
-/*		//ordenar vetor com bubble sort
-		double tempOrdena = 0;
-		for(int i = 0; i < tamanhoVetor; i++){
-		    for(int j = 0; j < (tamanhoVetor-1); j++){
-		        if(dist[j] < dist[j + 1]){
-		            tempOrdena = dist[j];
-		            dist[j] = dist[j+1];
-		            dist[j+1] = tempOrdena;
-		        }
-		    }
-		    
-		}*/
 
 
 		// pega as k menores distancias e verifica qual a classe da imagem para

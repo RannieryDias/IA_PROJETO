@@ -55,11 +55,11 @@ public class Principal {
 		jogoPlayers = knn.converteNomeId(nomesJogosPlayers[2], jogos);
 		knn.recomendacao(k, knn.getJogos(), jogoPlayers);	
 		recomendados = knn.getRecomendados();
-	
+		
 		System.out.println("Os jogos que recomendamos para "+ player1.getNome() + " são: ");
 		byte cont = 1;
 		for (byte i = 0; i < 3; i++) {
-			System.out.println(cont + " " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
+			System.out.println(cont + " - " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
 			for(byte j = 0; j < 15; j++)
 				System.out.println(recomendados[i].getAtributos()[j]);
 			cont++;
@@ -73,7 +73,7 @@ public class Principal {
 		player2.setNome("Daniel");
 		nomesJogosPlayers[0] = "Dota_2";
 		nomesJogosPlayers[1] = "Counter-Strike:_Global_Offensive ";
-		nomesJogosPlayers[2] = "Lara_Croft_and_the_guardian_of_light";
+		nomesJogosPlayers[2] = "Magicka";
 		player2.setNomesDosJogos(nomesJogosPlayers);
 		jogoPlayers = knn.converteNomeId(nomesJogosPlayers[0], jogos);
 		jogoPlayers = knn.converteNomeId(nomesJogosPlayers[1], jogos);
@@ -84,7 +84,7 @@ public class Principal {
 		System.out.println("Os jogos que recomendamos para "+ player2.getNome() + " são: ");
 		cont = 1;
 		for (byte i = 0; i < 3; i++) {
-			System.out.println(cont + " " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
+			System.out.println(cont + " - " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
 			for(byte j = 0; j < 15; j++)
 				System.out.println(recomendados[i].getAtributos()[j]);
 			cont++;
@@ -103,30 +103,16 @@ public class Principal {
 		knn.recomendacao(k, knn.getJogos(), jogoPlayers);	
 		recomendados = knn.getRecomendados();
 	
-		System.out.println("Os jogos que recomendamos para "+ player3.getNome() + " são: ");
+		System.out.println("Os jogos que recomendamos para "+ player3.getNome() + " são: \n");
 		cont = 1;
 		for (byte i = 0; i < 3; i++) {
-			System.out.println(cont + " " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
+			System.out.println(cont + " - " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
 			for(byte j = 0; j < 15; j++)
 				System.out.println(recomendados[i].getAtributos()[j]);
 			cont++;
 		}
 		System.out.println("Pressione Enter para continuar!");
 		scanner.nextLine();
-		
-		System.out.println("\r\n" + 
-				":'######::'########:'########::::'###::::'##::::'##:::::::'###::::'########::'##::::'##:'####::'######:::'#######::'########::\r\n" + 
-				"'##... ##:... ##..:: ##.....::::'## ##::: ###::'###::::::'## ##::: ##.... ##: ##:::: ##:. ##::'##... ##:'##.... ##: ##.... ##:\r\n" + 
-				" ##:::..::::: ##:::: ##::::::::'##:. ##:: ####'####:::::'##:. ##:: ##:::: ##: ##:::: ##:: ##:: ##:::..:: ##:::: ##: ##:::: ##:\r\n" + 
-				". ######::::: ##:::: ######:::'##:::. ##: ## ### ##::::'##:::. ##: ##:::: ##: ##:::: ##:: ##::. ######:: ##:::: ##: ########::\r\n" + 
-				":..... ##:::: ##:::: ##...:::: #########: ##. #: ##:::: #########: ##:::: ##:. ##:: ##::: ##:::..... ##: ##:::: ##: ##.. ##:::\r\n" + 
-				"'##::: ##:::: ##:::: ##::::::: ##.... ##: ##:.:: ##:::: ##.... ##: ##:::: ##::. ## ##:::: ##::'##::: ##: ##:::: ##: ##::. ##::\r\n" + 
-				". ######::::: ##:::: ########: ##:::: ##: ##:::: ##:::: ##:::: ##: ########::::. ###::::'####:. ######::. #######:: ##:::. ##:\r\n" + 
-				":......::::::..:::::........::..:::::..::..:::::..:::::..:::::..::........::::::...:::::....:::......::::.......:::..:::::..::\r\n" + 
-				"");
-		
-
-		
 		
 		
 		System.out.println("\n");
@@ -166,10 +152,10 @@ public class Principal {
 		
 		
 		System.out.println("\n");
-		System.out.println("Os jogos que recomendamos são: ");
+		System.out.println("Os jogos que recomendamos são: \n");
 		cont = 1;
 		for (byte i = 0; i < 3; i++) {
-			System.out.println(cont + " " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
+			System.out.println("\n" + cont + " - " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
 			for(byte j = 0; j < 15; j++)
 				System.out.println(recomendados[i].getAtributos()[j]);
 			cont++;
