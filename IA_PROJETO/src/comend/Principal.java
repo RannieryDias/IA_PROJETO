@@ -72,7 +72,7 @@ public class Principal {
 		Jogador player2 = new Jogador();
 		player2.setNome("Daniel");
 		nomesJogosPlayers[0] = "Dota_2";
-		nomesJogosPlayers[1] = "Counter-Strike:_Global_Offensive ";
+		nomesJogosPlayers[1] = "Counter-Strike:_Global_Offensive";
 		nomesJogosPlayers[2] = "Magicka";
 		player2.setNomesDosJogos(nomesJogosPlayers);
 		jogoPlayers = knn.converteNomeId(nomesJogosPlayers[0], jogos);
