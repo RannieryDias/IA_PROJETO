@@ -10,6 +10,7 @@ public class KNN {
 
 	private Jogo[] vetorJogos;
 	Jogo[] recomendados = new Jogo[3];
+	byte isHamming = 0; //variável que checa se é distancia de Hamming
 	//Leitura do dataset carregando no vetor de jogos do KNN
 	public static Jogo[] lerArquivo() throws FileNotFoundException,IOException {
 			FileReader file = new FileReader("artefatos\\dataset.txt");
@@ -25,6 +26,7 @@ public class KNN {
 			int j = 0;
 			int boolAux = 0;
 			Jogo jogo =  null;
+			
 			
 			while ((linha = arq.readLine()) != null) {
 				jogoCompleto = linha.split(",");
@@ -121,9 +123,9 @@ public class KNN {
 		if (k % 2 == 0)
 			k++;
 
-		//chama o método da distancia hamming
+		//chama o método da distancia 
 		for (int i = 0; i < tamanhoVetor; i++) {
-			double d = distanciaHamming(jogosComparacao[i], jogo);
+			double d = distanciaManhattan(jogosComparacao[i], jogo);
 				dist[i] = d;
 				menoresdist[i] = d;
 		}
@@ -134,50 +136,71 @@ public class KNN {
 		// no final classificar
 		int maximo = 0, medio = 0, minimo = 0, temp = 0, pau = 0;
 		
-		//método que define os 3 jogos com maiores taxas de recomendação
-		for(int i = 0; i < k; i++) {
-			for(int j = 0; j < dist.length; j++) {
-				//System.out.println("Valores de distancias: " + menoresdist[i] + " opa " + dist[j] +" Resultado " + Double.compare(menoresdist[i], dist[j]));
-				//if(Double.compare(menoresdist[i], dist[j]) == 0) {
-				if(dist[j] == 15) {
-					for(int aux = 0; aux < 3; aux++) {			
-						//maxima recomendacao
-						if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() > maximo) {
-							if(jogosComparacao[j].getId() != jogo.getId()) {
-								minimo = medio;
-								temp = maximo;
-								medio = temp;
-								this.recomendados[2] = recomendados[1];
-	             				this.recomendados[1] = recomendados[0];
-								this.recomendados[0] = jogosComparacao[j];
-								maximo = jogosComparacao[j].getRecommendationCount();
+		
+		//se for distancia de Hamming executa o seguinte bloco
+		if(isHamming == 1) {
+			//método que define os 3 jogos com maiores taxas de recomendação
+			for(int i = 0; i < k; i++) {
+				for(int j = 0; j < dist.length; j++) {
+					//System.out.println("Valores de distancias: " + menoresdist[i] + " opa " + dist[j] +" Resultado " + Double.compare(menoresdist[i], dist[j]));
+					//if(Double.compare(menoresdist[i], dist[j]) == 0) {
+					if(dist[j] == 15) {
+						for(int aux = 0; aux < 3; aux++) {			
+							//maxima recomendacao
+							if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() > maximo) {
+								if(jogosComparacao[j].getId() != jogo.getId()) {
+									minimo = medio;
+									temp = maximo;
+									medio = temp;
+									this.recomendados[2] = recomendados[1];
+		             				this.recomendados[1] = recomendados[0];
+									this.recomendados[0] = jogosComparacao[j];
+									maximo = jogosComparacao[j].getRecommendationCount();
+								}
 							}
-						}
-												
-						//media recomendacao
-						else if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() < maximo) {
-							if(jogosComparacao[j].getId() != jogo.getId()) {
-								this.recomendados[1] = jogosComparacao[j];
-								minimo = medio;
-								medio = jogosComparacao[j].getRecommendationcount();
+													
+							//media recomendacao
+							else if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() < maximo) {
+								if(jogosComparacao[j].getId() != jogo.getId()) {
+									this.recomendados[1] = jogosComparacao[j];
+									minimo = medio;
+									medio = jogosComparacao[j].getRecommendationcount();
+								}
 							}
-						}
-						
-						//minima recomendacao
-						else if (jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() < medio && jogosComparacao[j].getRecommendationCount() < maximo) {
-							if(jogosComparacao[j].getId() != jogo.getId()) {
-								this.recomendados[2] = jogosComparacao[j];
-								minimo = jogosComparacao[j].getRecommendationcount();
+							
+							//minima recomendacao
+							else if (jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() < medio && jogosComparacao[j].getRecommendationCount() < maximo) {
+								if(jogosComparacao[j].getId() != jogo.getId()) {
+									this.recomendados[2] = jogosComparacao[j];
+									minimo = jogosComparacao[j].getRecommendationcount();
+								}
 							}
+						}	
+					}
+				}
+			}
+		
+		}
+
+		
+		//se não for distancia de Hamming
+		else {
+			for (int i = 0; i < k; i++) {
+				for (int j = 0; j < dist.length; j++) {
+					if(Double.compare(menoresdist[i], dist[j]) == 0) {
+						//TODO essa parte aqui que faz a checagem pra outra distancia
+						if(recomendados[i].getRecommendationCount() < menoresdist[i]) {
+							
 						}
-					}	
+					}
 				}
 			}
 		}
 		
-		
 		return recomendados;
 	}
+	
+	
 	
 	// Calcula a distancia de Manhattan
 	public double distanciaManhattan(Jogo jogoA, Jogo jogoB) {
@@ -252,7 +275,7 @@ public class KNN {
 	//	Distancia de Hamming 
 	public int distanciaHamming(Jogo jogoA,Jogo jogoB) {
 		int similaridade = 0;
-		
+		isHamming = 1;
 		for (int i = 0; i < 15; i++) {
 			similaridade += (jogoA.getAtributos()[i]==jogoB.getAtributos()[i]? 1 : 0); 
 		}

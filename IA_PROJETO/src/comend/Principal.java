@@ -21,6 +21,8 @@ public class Principal {
 		Jogo jogoUser = null;
 		Jogo temporario = null;
 		Jogo [] recomendados = new Jogo[3];
+		Jogo [] recomendadosk1 = new Jogo[3];
+		Jogo [] recomendadosk2 = new Jogo[3];;
 		Jogo jogoPlayers = null;
 		Scanner scanner = new Scanner(System.in);
 		BufferedReader buffer = new BufferedReader (new InputStreamReader(System.in));
@@ -144,22 +146,40 @@ public class Principal {
 			System.out.println(jogoUser.getAtributos()[i]);
 		}
 		
-		knn.recomendacao(k, knn.getJogos(), jogoUser);
+		knn.recomendacao(k = 4, knn.getJogos(), jogoUser);
+		recomendadosk1 = knn.getRecomendados();
+		knn.recomendacao(k = 32, knn.getJogos(), jogoUser);
+		recomendadosk2 = knn.getRecomendados();
 		
-		recomendados = knn.getRecomendados();
 		
 
 		
-		
+		//imprime o primeiro K
 		System.out.println("\n");
-		System.out.println("Os jogos que recomendamos são: \n");
+		System.out.println("Os jogos que recomendamos para K = 4 são: \n");
 		cont = 1;
 		for (byte i = 0; i < 3; i++) {
-			System.out.println("\n" + cont + " - " + recomendados[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendados[i].getRecommendationCount()));
+			System.out.println("\n" + cont + " - " + recomendadosk1[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendadosk1[i].getRecommendationCount()));
 			for(byte j = 0; j < 15; j++)
-				System.out.println(recomendados[i].getAtributos()[j]);
+				System.out.println(recomendadosk1[i].getAtributos()[j]);
 			cont++;
 		}
+		System.out.println("Pressione Enter para continuar!");
+		scanner.nextLine();
+		
+		
+		//imprimeo segundo K
+		System.out.println("\n");
+		System.out.println("Os jogos que recomendamos para K = 32 são: \n");
+		cont = 1;
+		for (byte i = 0; i < 3; i++) {
+			System.out.println("\n" + cont + " - " + recomendadosk2[i].getNome() + " Com taxa de recomendacao: " + formatter.format(recomendadosk2[i].getRecommendationCount()));
+			for(byte j = 0; j < 15; j++)
+				System.out.println(recomendadosk2[i].getAtributos()[j]);
+			cont++;
+		}
+		
+		
 		
 		fim = System.currentTimeMillis();
 		
