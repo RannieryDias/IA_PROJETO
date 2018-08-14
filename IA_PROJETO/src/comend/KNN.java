@@ -131,7 +131,7 @@ public class KNN {
 		}
 		
 
-
+		//
 		// pega as k menores distancias e verifica qual a classe da imagem para
 		// no final classificar
 		int maximo = 0, medio = 0, minimo = 0, temp = 0, pau = 0;
