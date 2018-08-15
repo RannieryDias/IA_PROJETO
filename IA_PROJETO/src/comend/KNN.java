@@ -125,7 +125,7 @@ public class KNN {
 
 		//chama o método da distancia 
 		for (int i = 0; i < tamanhoVetor; i++) {
-			double d = distanciaManhattan(jogosComparacao[i], jogo);
+			double d = distanciaHamming(jogosComparacao[i], jogo);
 				dist[i] = d;
 				menoresdist[i] = d;
 		}
@@ -189,8 +189,32 @@ public class KNN {
 				for (int j = 0; j < dist.length; j++) {
 					if(Double.compare(menoresdist[i], dist[j]) == 0) {
 						//TODO essa parte aqui que faz a checagem pra outra distancia
-						if(recomendados[i].getRecommendationCount() < menoresdist[i]) {
-							
+						if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() > maximo) {
+							if(jogosComparacao[j].getId() != jogo.getId()) {
+								minimo = medio;
+								temp = maximo;
+								medio = temp;
+								this.recomendados[2] = recomendados[1];
+	             				this.recomendados[1] = recomendados[0];
+								this.recomendados[0] = jogosComparacao[j];
+								maximo = jogosComparacao[j].getRecommendationCount();
+							}
+						}
+						//media recomendacao
+						else if(jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() > medio && jogosComparacao[j].getRecommendationCount() < maximo) {
+							if(jogosComparacao[j].getId() != jogo.getId()) {
+								this.recomendados[1] = jogosComparacao[j];
+								minimo = medio;
+								medio = jogosComparacao[j].getRecommendationcount();
+							}
+						}
+						
+						//minima recomendacao
+						else if (jogosComparacao[j].getRecommendationCount() > minimo && jogosComparacao[j].getRecommendationCount() < medio && jogosComparacao[j].getRecommendationCount() < maximo) {
+							if(jogosComparacao[j].getId() != jogo.getId()) {
+								this.recomendados[2] = jogosComparacao[j];
+								minimo = jogosComparacao[j].getRecommendationcount();
+							}
 						}
 					}
 				}
